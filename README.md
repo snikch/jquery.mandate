@@ -12,12 +12,12 @@ Oh, and it's going to achieve this in under 2kb when minified.
 Status
 -------------------------
 
-Oh, I've only just begun.
+Oh, I've only just begun. I've got it validating against the simple rules I've supplied, and passing elements with errors to the decorator - the rest is just polish.
 
 To Do
 -------------------------
 * Implement messages at a rule, and schema level
-* Implement HTML5 input types as rules (email, url, number, color, )
+* Implement HTML5 input types as rules (email, url, number, color etc.)
 * Complete all common rules (email, url, pattern, alpha, alphanumeric etc.)
 * Include the form="myform" attribute for inputs that are not descendants of the form node (http://www.w3schools.com/html5/html5_form_attributes.asp)
 
