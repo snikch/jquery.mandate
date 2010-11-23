@@ -10,7 +10,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 		debug : false,
 		decorator : false,
 		elements: 'input[type!="submit"], select, textarea',
-		html5rules : ['min','max','step','required'],
+		html5rules : ['min','max','step','required','pattern'],
 		rules : {},
 		schema : {},
 		
