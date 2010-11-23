@@ -20,6 +20,7 @@ To Do
 * Implement HTML5 input types as rules (email, url, number, color etc.)
 * Complete all common rules (email, url, pattern, alpha, alphanumeric etc.)
 * Include the form="myform" attribute for inputs that are not descendants of the form node (http://www.w3schools.com/html5/html5_form_attributes.asp)
+* It would be call to optionally pass an event to the validate method so that rules could optionally make an async call, with the result determining wether to refire the event. e.g. call twitter api to confirm a supplied twitter user exists.
 
 
 Implementation
