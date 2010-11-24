@@ -13,22 +13,27 @@
 	jQuery(document).ready(function($) {
 		$.Mandate.debug = true;
 		$('form').submit(function(e){
-			if(!$(this).validate()) e.preventDefault();
+			if(!$(this).validate()){ e.preventDefault(); }
 		});
 		
-		$.Mandate.schema = {
+		$.Mandate.schema({
 			defaults : {
-				name : {minlen : [3], maxlen: [50]},
-				url : {url : []},
-				email : {email:[]}
+			name : {
+				minlen : {p:[3], m:'{n.uf} needs to be at least {1} chars long '},
+				maxlen : {m:'{n.u} cannot be longer than {1} characters',p:[50]}
+			},
+
+
+		//	url : {url : []},
+		//	email : {email:[]}
 			},
 			'#form1' : {
-				summary : { minlen : [5], maxlen : [100]}
+		//		summary : { minlen : [5], maxlen : [100]}
 			}
 		
-		}
-
 		});
+
+	});
 </script>
 <style>
 body{
@@ -90,11 +95,11 @@ fieldset{
 		<fieldset>
 			<legend>Form 1</legend>
 			Name <input type="text" name="name" class="styled" /><br />
-			Age <input type="text" name="age" min="18" max="99" class="styled" /><br />
+		<!--	Age <input type="text" name="age" min="18" max="99" class="styled" /><br />
 			Email <input type="email" name="email" class="styled" /><br />
 			Url <input type="url" name="url" class="styled" /><br />
 			Pattern (3 chars) <input type="text" name="pattern" pattern="^[A-z]{3}$" class="styled" /><br />
-			Summary <input type="text" name="summary" class="styled" /><br />
+			Summary <input type="text" name="summary" class="styled" /><br />-->
 
 			<p class="submit"><input type="submit" /></p>
 		</fieldset>

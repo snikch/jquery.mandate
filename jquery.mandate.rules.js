@@ -49,3 +49,4 @@ $.Mandate
 .rule('url', function(){
 	return $(this).val().match(/^(http|https):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(:(\d+))?/i);
 })
+
