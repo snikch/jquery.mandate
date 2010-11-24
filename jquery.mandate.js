@@ -133,6 +133,9 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 					case 'u':
 						v = uf(v);
 						break;
+					case 'q':
+						v = '"' + v + '"';
+						break;
 				}
 			}
 			return v;

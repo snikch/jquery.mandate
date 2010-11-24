@@ -32,7 +32,7 @@ This defines a page wide schema for elements with name="name", and tells the inp
 
 	$.Mandate.schema = {
 		defaults : {
-			name : {minlen : [3], maxlen: [50]}
+			name : {minlen : {p:[3], m:'{n.u} needs to be at least {1} characters long'}, maxlen: [50]}
 		},
 		'#form1' : {
 			summary : { minlen : [5], maxlen : [100]}
@@ -52,10 +52,10 @@ Templating implementation is still incomplete, and only works for messages passe
 
 In the first replacement this will look for a title tag (t) and if that doesn't exist it will use the name (n). {1} Refers to the first parameter passed to the rule, so if the schema was minlen : [3] then it would replace {1} with 3.
 
-You can also modify the name values with modifiers, such as u which will uppercase the first letter.
+You can also modify the name values with modifiers after a period, such as u which will uppercase the first letter e.g. {tn.u}.
 
 Values: t: title, n: name, l:label, r: rel
-Modifiers: u: upper case first letter
+Modifiers: u: upper case first letter, q: wrap in quotes
 
 More to come in this space.
 
