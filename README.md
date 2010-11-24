@@ -55,6 +55,7 @@ In the first replacement this will look for a title tag (t) and if that doesn't 
 You can also modify the name values with modifiers after a period, such as u which will uppercase the first letter e.g. {tn.u}.
 
 Values: t: title, n: name, l:label, r: rel
+
 Modifiers: u: upper case first letter, q: wrap in quotes
 
 More to come in this space.
