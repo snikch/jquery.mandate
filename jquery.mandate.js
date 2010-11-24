@@ -135,8 +135,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 						break;
 					case 'q':
 						v = '"' + v + '"';
-						break;
-				}
+						break;				}
 			}
 			return v;
 		});

@@ -9,4 +9,4 @@ $.Mandate.decorator = function(form, decorations){
 	$(form).before(feedback);
 
 
-}
+}`
