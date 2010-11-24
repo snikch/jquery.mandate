@@ -3,7 +3,7 @@
 $.Mandate.decorator = function(form, decorations){
 	var feedback = $('<ul id="feedback" />');
 	for(var i in decorations){
-		feedback.append('<li class="error">' + decorations[i].message + '</li>');
+		feedback.append('<li class="error">' + decorations[i].m + '</li>');
 	}
 	
 	$(form).before(feedback);
