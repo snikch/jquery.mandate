@@ -43,6 +43,23 @@ This defines a page wide schema for elements with name="name", and tells the inp
 		if(!$(this).validate()) e.preventDefault();
 	});
 
+Templates
+------------------------
+Templating implementation is still incomplete, and only works for messages passed directly in the schema (no defaulting or bubbling yet).
+
+	Example
+	"{tn} needs to be at least {1} characters long" 
+
+In the first replacement this will look for a title tag (t) and if that doesn't exist it will use the name (n). {1} Refers to the first parameter passed to the rule, so if the schema was minlen : [3] then it would replace {1} with 3.
+
+You can also modify the name values with modifiers, such as u which will uppercase the first letter.
+
+Values: t: title, n: name, l:label, r: rel
+Modifiers: u: upper case first letter
+
+More to come in this space.
+
+
 Why Mandate?
 ------------------------
 Because to mandate something is to require it, and we're mandating that you abide by our rules.
