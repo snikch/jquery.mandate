@@ -16,7 +16,6 @@ Oh, I've only just begun. I've got it validating against the simple rules I've s
 
 To Do
 -------------------------
-* Implement messages at a rule, and schema level
 * Implement HTML5 input types as rules (email, url, number, color etc.)
 * Complete all common rules (email, url, pattern, alpha, alphanumeric etc.)
 * Include the form="myform" attribute for inputs that are not descendants of the form node (http://www.w3schools.com/html5/html5_form_attributes.asp)
@@ -58,8 +57,7 @@ Values: t: title, n: name, l:label, r: rel
 
 Modifiers: u: upper case first letter, q: wrap in quotes
 
-More to come in this space.
-
+Messages can be applied at the rule, page default and form / element level. Cascading back to find the closest message.
 
 Why Mandate?
 ------------------------
