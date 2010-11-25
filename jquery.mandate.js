@@ -12,6 +12,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 		elements: 'input[type!="submit"], select, textarea',
 		html5rules : ['min','max','step','required','pattern'],
 		rules : {},
+		messages : {},
 
 		schema : function(s){
 			if('rules' in s){
@@ -23,8 +24,9 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 			$.extend(schema, s);
 		},
 
-		rule : function(name, func){
-			this.rules[name] = func;
+		rule : function(a, b, c){
+			this.rules[a] = typeof b == f ? b : c;
+			if(typeof c != u) this.messages[a] = b;
 			return this;
 		},
 
@@ -33,16 +35,16 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 		}
 
 	};
-	var schema = {}, n = {t:'title',n:'name',r:'rel'}, u='undefined', o='object';
+	var schema = {}, n = {t:'title',n:'name',r:'rel'}, u = 'undefined', o = 'object', f = 'function', d=$.Mandate;
 
 	var opts = $.extend({
 		hasFirebug : "console" in window && "firebug" in window.console,
 		hasConsoleLog: "console" in window && "log" in window.console
-	}, $.Mandate);
+	}, d);
 
 	log = function(msg){
-		if(!$.Mandate.debug) return;
-		if(typeof msg == 'object'){
+		if(!d.debug) return;
+		if(typeof msg == o){
 			var m ='';
 			for(var i in msg){
 				m += i + ' = ' + msg[i] + "\n";
@@ -58,56 +60,65 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 	}
 
 	validate = function (form){
-		opts = $.extend({}, opts, formSchema(form));
-
-		if('defaults' in schema) $.extend(opts, schema.defaults);
-
-		var valid = true;
-		var decoratations = [];
-
+		var s = {}, valid = true, decoratations = [], ms=$.extend({},d.messages);
+		
+		if('defaults' in schema) $.extend(s, schema.defaults);
+		$.extend(true, s, fs(form));
+		
 		log('Validating form with an id of: ' + $(form).attr('id'));
 		$(opts.elements, form).each(function(){
-			var $this = $(this);
-			var name = $this.attr('name');
-			var rules = $.extend({}, html5Rules($this));
-			if(name in opts)
+			var $this = $(this), name = $this.attr('name'), rules = $.extend(true, {}, h5($this)), em = $.extend({}, ms);
+			// If this element is in the schema, add its rules to the rules array
+			if(name in s)
 			{
-				$.extend(rules, opts[name]);
+				$.extend(true, rules, s[name]);
 			}
+			// Add any rule specific messages to override the base messages
+			$.each(rules, function(a,b){
+				if(typeof b.m != u) em[a] = b.m;
+			});	
 			log('Validating element with name: ' + name);
+
+			// Test all rules
 			for(var i in rules){
-				// If the rule params are an object, return the param property
-				p = typeof rules[i] == o ? rules[i].p : rules[i];
+				// Params are either the p property of the object, or the array
+				p = typeof rules[i].p != u ? rules[i].p : rules[i];
 				log('Validating element: ' + name + ' with rule: ' + i);
-				if(!applyRule(this, i, p)){
+
+				if(!v(this, i, p)){
+					log('Using Rule: ' + em[i]);
+
 					valid = false;
 					decoratations.push({
 						el: this,
 						rule: i,
-						m: flesh(rules[i].m, this, p)
+						m: flesh(em[i], this, p)
 					});
 					log('Rule: ' + i + ' failed');
 
-					if(!$.Mandate.bubble) return false;
+					if(!d.bubble) return false;
 					break;
 				}
 				log('Rule: ' + i + ' passed');
 			}
 		});
-
-		log(decoratations);
+		
+		if(valid) return true;
 
 		decorate(form, decoratations);
-		return valid;
+		return false;
 
 	}
 
 	decorate = function(form, decorations){
-		$.Mandate.decorator(form, decorations);
+		d.decorator(form, decorations);
 	}
 
+	// Flesh is the templating functions
 	flesh = function(m, e, p){
+		// Replace all {xxx} instances with their appropriate values
 		m = m.replace(/{([a-z0-9.]+)}/mg, function(m,r){
+			// If we've got a number, add in the param is equates to.
 			if(parseInt(r) > 0)
 			{
 				return p[parseInt(r)-1];
@@ -119,35 +130,37 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 			for(i in r){
 				a = $(e).attr(n[r[i]]);
 				if(typeof a != u){
-					var v = a;
+					var c = a;
 					break;
 				}
 			}
-			if(typeof m == u) return v;
-			log('Modifying: ' + v + ' with modifiers: ' + m);
+			if(typeof m == u) return c;
+			log('Modifying: ' + c + ' with modifiers: ' + m);
 			uf = function(s){return s.substr(0,1).toUpperCase() + s.substr(1); }
 			m = m.split('');
 			for(i in m){
 				switch(m[i]){
 					// Upper case first letters
 					case 'u':
-						v = uf(v);
+						c = uf(c);
 						break;
 					case 'q':
-						v = '"' + v + '"';
+						c = '"' + c + '"';
 						break;				}
 			}
-			return v;
+			return c;
 		});
 		return m;
 	}
 
-	applyRule = function(el, name, params){
-		var rule = $.Mandate.rules[name];
+	// Checks if the supplied named rule is valid against the supplied element and rule params
+	v = function(el, name, params){
+		log('applying rule');
+		var rule = d.rules[name];
 		return rule.apply(el, params);
 	}
 
-	formSchema = function(form){
+	fs = function(form){
 		for(var i in schema){
 			if($(form).is(i)){
 				log('Found schema for: ' + i);
@@ -160,17 +173,17 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 		return {};
 	}
 
-	html5Rules = function($el){
+	h5 = function($el){
 		var rules = {};
-		$.each($.Mandate.html5rules, function(k, v){
-			if(typeof $el.attr(v) == 'undefined') return;
-			rules[v] = [$el.attr(v)];
-			log('Adding HTML5 element rule: ' + v);
+		$.each(d.html5rules, function(a, b){
+			if(typeof $el.attr(b) == 'undefined') return;
+			rules[b] ={p: [$el.attr(b)]};
+			log('Adding HTML5 element rule: ' + b);
 		});
 		return rules;
 	}
 
 	$.fn.validate = function(){
-		return $.Mandate.validate(this);
+		return d.validate(this);
 	}
 })(jQuery);

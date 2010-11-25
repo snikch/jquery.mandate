@@ -15,23 +15,27 @@
 		$('form').submit(function(e){
 			if(!$(this).validate()){ e.preventDefault(); }
 		});
-		
+
 		$.Mandate.schema({
 			defaults : {
 			name : {
 				// Look for label, then title, then name - and uppercase first letter
-				minlen : {p:[3], m:'{ltn.u} needs to be at least {1} chars long '},
+				minlen : {p:[3], m:'{ltn.u} gotta be {1} chars long '},
 				maxlen : {m:'{ltn.u} cannot be longer than {1} characters',p:[50]}
 			},
 
 
-		//	url : {url : []},
-		//	email : {email:[]}
+			url : {url : []},
+			email : {email:[]},
+			ruledefaultmessage : {minlen : [3]},
+			defaultruleformmessage: {minlen:{ p:[3]}}
 			},
 			'#form1' : {
-		//		summary : { minlen : [5], maxlen : [100]}
+				formspecificmessage : { minlen : {p:[5], m: 'form specific message'}, maxlen : [100]},
+				defaultruleformmessage : {minlen: {m:'form specific message, leaving rule along'}},
+				defaultmessageformrule : {minlen: {p: [99]}}
 			}
-		
+
 		});
 
 	});
@@ -95,21 +99,22 @@ fieldset{
 	<form method="get" action="" id="form1" >
 		<fieldset>
 			<legend>Form 1</legend>
-<<<<<<< HEAD
 			Name <input type="text" name="name" class="styled" title="Your Name" /><br />
-=======
-			Name <input type="text" name="name" class="styled" /><br />
->>>>>>> 0a8cff05599b417cf47ddbd1cecc1e82bef8eedc
-		<!--	Age <input type="text" name="age" min="18" max="99" class="styled" /><br />
-			Email <input type="email" name="email" class="styled" /><br />
+			Age <input type="text" name="age" min="18" max="99" class="styled" /><br />
+			Email <input type="email" name="email" class="styled" /><br />-
 			Url <input type="url" name="url" class="styled" /><br />
-			Pattern (3 chars) <input type="text" name="pattern" pattern="^[A-z]{3}$" class="styled" /><br />
-			Summary <input type="text" name="summary" class="styled" /><br />-->
+	Pattern (3 chars) <input type="text" name="pattern" pattern="^[A-z]{3}$" class="styled" /><br />
+			Summary <input type="text" name="summary" class="styled" /><br />
+			Name (default message) <input type="text" name="ruledefaultmessage" class="styled" title="Your Name" /><br />
+			Name (default rule message) <input type="text" name="name" class="styled" title="Your Name" /><br />
+			Name (default rule, form message) <input type="text" name="defaultruleformmessage" class="styled" title="Your Name" /><br />
+			Name (default message, form rule) <input type="text" name="defaultmessageformrule" class="styled" title="Your Name" /><br />
+			Name (form specific message)<input type="text" name="formspecificmessage" class="styled" title="Your Name" /><br />
 
 			<p class="submit"><input type="submit" /></p>
 		</fieldset>
 	</form>
-	
+
 </body>
 </html>
 
