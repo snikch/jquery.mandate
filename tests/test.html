@@ -6,9 +6,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>Mandate testing page</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-  <script src="../jquery.mandate.js" type="text/javascript"></script>
-  <script src="../jquery.mandate.rules.js" type="text/javascript"></script>
-  <script src="../jquery.mandate.decorator.js" type="text/javascript"></script>
+  <script src="../src/jquery.mandate.js" type="text/javascript"></script>
+  <script src="../src/jquery.mandate.rules.js" type="text/javascript"></script>
+  <script src="../src/jquery.mandate.decorator.js" type="text/javascript"></script>
   <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		$.Mandate.debug = true;
@@ -28,7 +28,8 @@
 			url : {url : []},
 			email : {email:[]},
 			ruledefaultmessage : {minlen : [3]},
-			defaultruleformmessage: {minlen:{ p:[3]}}
+			defaultruleformmessage: {minlen:{ p:[3]}},
+			imagefile: {filetype:{p:[['.jpg','.png','.jpeg','.gif']]}}
 			},
 			'#form1' : {
 				formspecificmessage : { minlen : {p:[5], m: 'form specific message'}, maxlen : [100]},
@@ -111,6 +112,7 @@ fieldset{
 			Name (default message, form rule) <input type="text" name="defaultmessageformrule" class="styled" title="Your Name" /><br />
 			Name (form specific message)<input type="text" name="formspecificmessage" class="styled" title="Your Name" /><br />
 
+			File (.jpg, .jpeg, .png, .gif) <input type="file" name="imagefile" class="styled" />
 			<p class="submit"><input type="submit" /></p>
 		</fieldset>
 	</form>
