@@ -1,14 +1,14 @@
 // Copyright 2010 Mal Curtis http://mal.co.nz
 
 $.Mandate.decorator = function(form, decorations){
-	var e = $('#feedback', form.parent());
+	var e = $('#errorbox', form.parent());
 	if(!e.length > 0){
-		e = $('<ul id="feedback" />');
+		e = $('<div id="errorbox"><ul /></div>');
 		$(form).before(e);
 	}else{
-		e.children().remove();
+		e.find('ul').children().remove();
 	}
 	for(var i in decorations){
-		e.append('<li class="error">' + decorations[i].m + '</li>');
+		e.find('ul').append('<li class="error">' + decorations[i].m + '</li>');
 	}
 }
