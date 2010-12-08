@@ -11,7 +11,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 		decorator : false,
 		elements: 'input[type!="submit"], select, textarea',
 		html5rules : ['min','max','step','required','pattern'],
-		html5els : ['email','url']
+		html5els : ['email','url'],
 		rules : {},
 		messages : {},
 
