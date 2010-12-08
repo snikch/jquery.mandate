@@ -11,6 +11,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 		decorator : false,
 		elements: 'input[type!="submit"], select, textarea',
 		html5rules : ['min','max','step','required','pattern'],
+		html5els : ['email','url']
 		rules : {},
 		messages : {},
 
@@ -35,7 +36,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 		}
 
 	};
-	var schema = {}, n = {t:'title',n:'name',r:'rel'}, u = 'undefined', o = 'object', f = 'function', d=$.Mandate;
+	var schema = {}, n = {t:'title',n:'name',r:'rel'}, u = 'undefined', o = 'object', f = 'function', y = 'array', d=$.Mandate;
 
 	var opts = $.extend({
 		hasFirebug : "console" in window && "firebug" in window.console,
@@ -61,10 +62,10 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 
 	validate = function (form){
 		var s = {}, valid = true, decoratations = [], ms=$.extend({},d.messages);
-		
+
 		if('defaults' in schema) $.extend(s, schema.defaults);
 		$.extend(true, s, fs(form));
-		
+
 		log('Validating form with an id of: ' + $(form).attr('id'));
 		$(opts.elements, form).each(function(){
 			var $this = $(this), name = $this.attr('name'), rules = $.extend(true, {}, h5($this)), em = $.extend({}, ms);
@@ -76,7 +77,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 			// Add any rule specific messages to override the base messages
 			$.each(rules, function(a,b){
 				if(typeof b.m != u) em[a] = b.m;
-			});	
+			});
 			log('Validating element with name: ' + name);
 
 			// Test all rules
@@ -102,7 +103,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 				log('Rule: ' + i + ' passed');
 			}
 		});
-		
+
 		if(valid) return true;
 
 		decorate(form, decoratations);
@@ -157,6 +158,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 	v = function(el, name, params){
 		log('applying rule');
 		var rule = d.rules[name];
+		if(typeof params != y) params = [];
 		return rule.apply(el, params);
 	}
 

@@ -53,12 +53,15 @@ $.Mandate
 .rule('filetype', '{n.u} is not the correct filetype', function(types){
 	var v = false, vl = $(this).val();
 	for(i in types)
-	{
-		// IE Doesn't accept negative numbers in substr, so use length minus ext length
+	{ // IE Doesn't accept negative numbers in substr, so use length minus ext length
 		if(vl.substr(vl.length-(types[i].length)).toLowerCase()==types[i].toLowerCase()){
 		   v= true;
 		   break;
 		}
 	}
 	return v;
+})
+
+.rule('equal', '{n.u} does not match required input', function(e){
+	return $(this).val() == $(e).val();
 })
