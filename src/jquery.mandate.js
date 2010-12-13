@@ -158,7 +158,7 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 	v = function(el, name, params){
 		log('applying rule');
 		var rule = d.rules[name];
-		if(typeof params != y) params = [];
+		if(!$.isArray(params)) params = [];
 		return rule.apply(el, params);
 	}
 
