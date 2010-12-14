@@ -108,7 +108,7 @@
 
 	}
 
-	// Flesh is the templating functions
+	// Flesh is the templating function
 	flesh = function(m, e, p){
 		// Replace all {xxx} instances with their appropriate values
 		m = m.replace(/{([a-z0-9.]+)}/mg, function(m,r){
