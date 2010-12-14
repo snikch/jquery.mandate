@@ -1,6 +1,4 @@
 // Copyright 2010 Mal Curtis http://mal.co.nz
-if (typeof jQuery == 'undefined') throw("jQuery Required");
-
 (function($){
 	// Public General Plugin methods $.Mandate
 	$.Mandate = {
@@ -31,8 +29,8 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 			return this;
 		},
 
-		validate : function(form){
-			return validate(form);
+		validate : function(form, is){
+			return validate(form, is);
 		}
 
 	};
@@ -60,15 +58,15 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 				alert(msg);
 	}
 
-	validate = function (form){
+	validate = function (form, is){
 		var s = {}, valid = true, decoratations = [], ms=$.extend({},d.messages);
-
 		if('defaults' in schema) $.extend(s, schema.defaults);
 		$.extend(true, s, fs(form));
 
 		log('Validating form with an id of: ' + $(form).attr('id'));
 		$(opts.elements, form).each(function(){
 			var $this = $(this), name = $this.attr('name'), rules = $.extend(true, {}, h5($this)), em = $.extend({}, ms);
+			if(typeof is != u && !$this.is(is)) return;
 			// If this element is in the schema, add its rules to the rules array
 			if(name in s)
 			{
@@ -104,15 +102,10 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 			}
 		});
 
-		if(valid) return true;
 
-		decorate(form, decoratations);
-		return false;
+		d.decorator(form, decoratations, valid);
+		return valid;
 
-	}
-
-	decorate = function(form, decorations){
-		d.decorator(form, decorations);
 	}
 
 	// Flesh is the templating functions
@@ -185,7 +178,8 @@ if (typeof jQuery == 'undefined') throw("jQuery Required");
 		return rules;
 	}
 
-	$.fn.validate = function(){
-		return d.validate(this);
+	$.fn.validate = function(is){
+		return d.validate(this, is);
 	}
 })(jQuery);
+
