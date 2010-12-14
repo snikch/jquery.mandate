@@ -13,7 +13,7 @@ $.Mandate.decorator = function(form, decorations, valid){
 	}else{
 		e.find('ul').children().remove();
 	}
-	for(var i in decorations){
-		e.find('ul').append('<li class="error">' + decorations[i].m + '</li>');
-	}
+	$.each(decorations, function(k,v){
+		e.find('ul').append('<li class="error">' +v.m + '</li>');
+	});
 }
