@@ -59,10 +59,9 @@
 	}
 
 	validate = function (form, is){
-		var s = {}, valid = true, decoratations = [], ms=$.extend({},d.messages);
+		var s = {}, valid = true, decorations = [], ms=$.extend({},d.messages);
 		if('defaults' in schema) $.extend(s, schema.defaults);
 		$.extend(true, s, fs(form));
-
 		log('Validating form with an id of: ' + $(form).attr('id'));
 		$(opts.elements, form).each(function(){
 			var $this = $(this), name = $this.attr('name'), rules = $.extend(true, {}, h5($this)), em = $.extend({}, ms);
@@ -77,9 +76,10 @@
 				if(typeof b.m != u) em[a] = b.m;
 			});
 			log('Validating element with name: ' + name);
-
 			// Test all rules
 			for(var i in rules){
+				if(typeof i == u) return;
+				log(typeof i);
 				// Params are either the p property of the object, or the array
 				p = typeof rules[i].p != u ? rules[i].p : rules[i];
 				log('Validating element: ' + name + ' with rule: ' + i);
@@ -88,7 +88,7 @@
 					log('Using Rule: ' + em[i]);
 
 					valid = false;
-					decoratations.push({
+					decorations.push({
 						el: this,
 						rule: i,
 						m: flesh(em[i], this, p)
@@ -103,12 +103,12 @@
 		});
 
 
-		d.decorator(form, decoratations, valid);
+		d.decorator(form, decorations, valid);
 		return valid;
 
 	}
 
-	// Flesh is the templating function
+	// Flesh is the templating functions
 	flesh = function(m, e, p){
 		// Replace all {xxx} instances with their appropriate values
 		m = m.replace(/{([a-z0-9.]+)}/mg, function(m,r){
@@ -171,7 +171,8 @@
 	h5 = function($el){
 		var rules = {};
 		$.each(d.html5rules, function(a, b){
-			if(typeof $el.attr(b) == 'undefined') return;
+			var at = $el.attr(b);
+			if(typeof at == u || at.length == '' || !at) return;
 			rules[b] ={p: [$el.attr(b)]};
 			log('Adding HTML5 element rule: ' + b);
 		});
@@ -182,4 +183,5 @@
 		return d.validate(this, is);
 	}
 })(jQuery);
+
 
